@@ -25,6 +25,7 @@ class Event(db.Model):
             "description": self.description,
             "start_time": self.start_time.strftime("%Y-%m-%dT%H:%M:%S"),
             "end_time": self.end_time.strftime("%Y-%m-%dT%H:%M:%S"),
+            "id": self.id
         }
 
         
