@@ -1,0 +1,28 @@
+<header>
+    <div class="container">
+      <a href="/" class="logo">Welcome to My-Calendar</a>
+      <nav>
+        <ul>
+        </ul>
+      </nav> 
+  </div>
+  </header>
+
+<div class="wrapper">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+        <h2 class="active"> Login </h2>
+        <h2 class="inactive underlineHover"> Register </h2>
+
+    
+        <!-- Login Form -->
+            <input type="text" #email ngModel name="email" class="fadeIn" placeholder="email">
+            <input type="password" #password ngModel name="password" class="fadeIn" placeholder="password">
+    
+        <!-- Remind Passowrd -->
+        <div id="formFooter">
+            <button type="button" class="block" (click)="login(email.value, password.value)">ENTER</button>
+        </div>
+  
+    </div>
+</div>

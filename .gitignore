@@ -1,4 +1,4 @@
 venv/
 __pycache__/
 
-my-calendar/
+node_modules/

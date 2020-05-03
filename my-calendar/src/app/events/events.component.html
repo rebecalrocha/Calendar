@@ -1,0 +1,26 @@
+<header>
+  <div class="container">
+    <a href="/" class="logo">Welcome to My-Calendar</a>
+    <nav>
+      <ul>
+        <li><a href="#" routerLink="/events">Create New Event</a></li>
+      </ul>
+    </nav> 
+</div>
+</header>
+
+<div class="content">
+
+  <!--full-calendar defaultView="dayGridMonth" [plugins]="calendarPlugins"></full-calendar-->
+
+  <full-calendar
+  defaultView="dayGridMonth"
+  [plugins]="calendarPlugins"
+  [events]="[
+    { title: 'Teste 1', start: '2020-04-12T10:30:00', end: '2020-04-12T11:30:00', allDay: false },
+    { title: 'Teste 2', date: '2020-04-02' }
+  ]"
+  
+  ></full-calendar>
+
+</div> <!-- content class -->
