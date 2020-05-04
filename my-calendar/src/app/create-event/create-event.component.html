@@ -1,0 +1,50 @@
+<div class="wrapper">
+    <div class="col-12">
+        <form>
+            <div class="form-group">
+                <label for="inputDescription">Description</label>
+                <input type="text" class="form-control" id="inputDescription" #description ngModel name="description">
+            </div>
+            <div class="form-group row">
+                <div class="col-6">
+                    <label for="inputStartTime">Start Data</label>
+                    <input type="date" class="form-control" id="inputStartTime" #start_date ngModel name="start_date" >  
+                </div>
+                <div class="col-6">
+                    <label for="inputStartDate">Start Time</label>
+                    <input type="time" class="form-control" id="inputStartDate" #start_time ngModel name="start_time">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-6">
+                    <label for="inputEndtTime">End Data</label>
+                    <input type="date" class="form-control" id="inputEndTime" #end_date ngModel name="end_date">  
+                </div>
+                <div class="col-6">
+                    <label for="inputEndDate">End Time</label>
+                    <input type="time" class="form-control" id="inputEndDate" #end_time ngModel name="end_time">
+                </div>
+            </div>
+            <div class="row col-12">
+                <div class=col-12>
+                    <button type="button" class="btn btn-primary" (click)="create(description.value, start_date.value, start_time.value, end_date.value, end_time.value)">Submit</button>
+                    <button type="button" class="btn btn-primary float-right" routerLink="/events">Cancel</button>
+                </div>
+            </div>
+            </form>
+    </div>
+</div>
+
+
+
+<!--dl-date-time-picker
+    startView="day"
+    maxView="year"
+    minView="minute"
+    minuteStep="5"
+    [(ngModel)]="selectedDate"
+>
+</dl-date-time-picker-->
+
+
+

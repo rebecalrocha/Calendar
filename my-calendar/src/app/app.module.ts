@@ -9,23 +9,33 @@ import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthenticationService } from './authentication.service';
 import {AuthGuard} from './auth.guard';
+import { FormsModule } from '@angular/forms';
+import { CreateEventComponent } from './create-event/create-event.component';
+import { DlDateTimeDateModule, DlDateTimePickerModule } from 'angular-bootstrap-datetimepicker';
+ 
+   
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     EventsComponent,
-    LoginComponent
+    LoginComponent,
+    CreateEventComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FullCalendarModule, // for FullCalendar!
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    DlDateTimeDateModule,  // <--- Determines the data type of the model
+    DlDateTimePickerModule,
   ],
   providers: [
     AuthenticationService, 
-    AuthGuard
+    AuthGuard,
+    FormsModule,
   ],
   bootstrap: [AppComponent]
 })

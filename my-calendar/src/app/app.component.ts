@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-//import dayGridPlugin from '@fullcalendar/daygrid'; // for FullCalendar!
+import { AuthenticationService } from './authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'my-calendar';
-  //calendarPlugins = [dayGridPlugin]; // for FullCalendar!
+  constructor(private authenticationService: AuthenticationService) { }
+
+  logout(){
+    this.authenticationService.logout();
+  }
 }

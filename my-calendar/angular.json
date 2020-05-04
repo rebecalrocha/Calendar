@@ -26,7 +26,8 @@
             "styles": [
               "src/styles.css",
               "node_modules/@fullcalendar/core/main.css",
-              "node_modules/@fullcalendar/daygrid/main.css"
+              "node_modules/@fullcalendar/daygrid/main.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": []
           },

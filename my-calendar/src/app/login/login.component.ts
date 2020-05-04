@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
         console.log("entrei no subscribe e o result é: ", result)
         if (result) {
           console.log("deu bom")
-          this.router.navigate(['/login']);
+          this.router.navigate(['/events']);
         } else{
           this.error = 'email or password is incorrect';
           this.loading = false;
