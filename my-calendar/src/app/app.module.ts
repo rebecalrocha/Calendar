@@ -12,6 +12,8 @@ import {AuthGuard} from './auth.guard';
 import { FormsModule } from '@angular/forms';
 import { CreateEventComponent } from './create-event/create-event.component';
 import { DlDateTimeDateModule, DlDateTimePickerModule } from 'angular-bootstrap-datetimepicker';
+import { ViewEventComponent } from './view-event/view-event.component';
+import { EditEventComponent } from './edit-event/edit-event.component';
  
    
 
@@ -21,7 +23,9 @@ import { DlDateTimeDateModule, DlDateTimePickerModule } from 'angular-bootstrap-
     HomeComponent,
     EventsComponent,
     LoginComponent,
-    CreateEventComponent
+    CreateEventComponent,
+    ViewEventComponent,
+    EditEventComponent
   ],
   imports: [
     BrowserModule,

@@ -27,7 +27,7 @@
     "angular-bootstrap-datetimepicker": "^4.0.2",
     "bootstrap": "^4.4.1",
     "jquery": "^1.9.1",
-    "moment": "^2.25.1",
+    "moment": "^2.25.3",
     "open-iconic": "^1.1.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",

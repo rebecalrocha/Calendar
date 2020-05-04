@@ -38,6 +38,18 @@ def get_events():
     #convertendo para json
     return jsonify({'events': events})
 
+@app.route('/get-event/<int:event_id>', methods=['GET'])
+def get_event(event_id):
+    logged_user = auth_user(request)
+    if logged_user is None:
+        return jsonify({'message': 'user not authenticated'})  
+    
+    for event in logged_user.events:
+        if event.id == event_id:
+            return jsonify({'event': event.serialize()})
+    
+    return jsonify({'message': 'event not  found'})
+
 
 @app.route('/create-events', methods=['POST'])
 def create_event():
@@ -65,7 +77,7 @@ def create_event():
     return jsonify({'message': 'start time must be earlier than end time'})
 
 
-@app.route('/delete-event/<int:event_id>', methods=['POST'])
+@app.route('/delete-event/<int:event_id>', methods=['GET'])
 def delete_event(event_id):
     logged_user = auth_user(request)
     if logged_user is None:

@@ -1,10 +1,2 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import '~open-iconic/font/css/open-iconic-bootstrap.css';
-
-.wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  margin-top: 140px;
-}

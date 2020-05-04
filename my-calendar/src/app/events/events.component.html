@@ -1,12 +1,11 @@
-
 <div class="content">
-
-  <!--full-calendar defaultView="dayGridMonth" [plugins]="calendarPlugins"></full-calendar-->
 
   <full-calendar
   defaultView="dayGridMonth"
   [plugins]="calendarPlugins"
+  [header]="calendarHeader"
   [events]="calendarEvents"
+  (eventClick)="handleEventClick($event)"
   
   ></full-calendar>
 

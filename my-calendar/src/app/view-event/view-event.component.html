@@ -1,0 +1,36 @@
+<!--p>Essa é a descrição do evento: {{ description }}.</p-->
+<!-- 
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <h5 class="card-header">Featured</h5>
+            <div class="card-body">
+              <h5 class="card-title">Special title treatment</h5>
+              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="wrapper">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header font-weight-bold">
+              Event: {{description}}
+            </div>
+            <div class="card-body">
+                <p class="card-text">Starts: {{ start }}</p>
+                <p class="card-text">Ends: {{ end }}</p>
+                <!--a href="#" class="btn btn-primary">Cancel</a-->
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <button type="button" class="btn btn-primary mx-3" (click)='handleEditClick()'>Edit</button>
+                    <button type="button" class="btn btn-primary" (click)="delete()">Delete</button>
+                    <button type="button" class="btn btn-primary float-right mr-3" routerLink="/events">Go Back</button>
+                </div>
+            </div>
+          </div>
+    </div>
+</div>

@@ -2,10 +2,11 @@
 <!-- Toolbar -->
 <header>
   <div class="container">
-    <a href="/" class="logo">Welcome to MyCalendar</a>
+    <a class="logo">Welcome to MyCalendar</a>
     <nav>
       <ul>
         <li><a href="#" routerLink="/createEvent">Create New Event</a></li>
+        <li><a href="#" routerLink="/events">Events</a></li>
         <li><a href="#"><span (click)="logout()">Logout</span></a></li>
       </ul>
     </nav> 
@@ -16,6 +17,6 @@
 
 <!-- * * *  -->
 
-<div class="container">
+<div class="container-fluid">
   <router-outlet></router-outlet>
 </div>
