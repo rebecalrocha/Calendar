@@ -33,7 +33,7 @@ export class EventsComponent implements OnInit {
   }
 
   getEvents(){
-      let request = this.http.get(this.url+'/events', { headers: new HttpHeaders({'api-key': this.currentUser.token})})
+      this.http.get(this.url+'/events', { headers: new HttpHeaders({'api-key': this.currentUser.token})})
         .subscribe(data => {
           data.events.map(event => {
             this.calendarEvents = this.calendarEvents.concat({

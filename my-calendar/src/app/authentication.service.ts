@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthenticationService {
     public token: string;
 
-    constructor(private http: HttpClient, private router: Router,) {
+    constructor(private http: HttpClient) {
         // set token if saved in local storage
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        //se currentUser não é null e se tem token
         this.token = currentUser && currentUser.token;
     }
 
@@ -36,10 +36,10 @@ export class AuthenticationService {
                 })
             );
     }
+
     logout(): void {
         // clear token remove user from local storage to log user out
         this.token = null;
         localStorage.removeItem('currentUser');
-        this.router.navigate(['/login']);
     }
 }

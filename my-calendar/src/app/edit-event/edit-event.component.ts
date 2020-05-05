@@ -29,14 +29,11 @@ export class EditEventComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.paramMap
     .subscribe(params => {
-      //console.log(params.params.event_id)
       this.event_id = params.params.event_id;
     });
 
-    let request = this.http.get(this.url+'/get-event/'+this.event_id, { headers: new HttpHeaders({'api-key': this.currentUser.token})})
+    this.http.get(this.url+'/get-event/'+this.event_id, { headers: new HttpHeaders({'api-key': this.currentUser.token})})
     .subscribe(data => {
-      console.log(data.event)
-      //console.log('start: ',data.event.start_time.replace("T", "    Time: "));
 
       let start = data.event.start_time.split("T");
       let end = data.event.end_time.split("T");
@@ -46,24 +43,18 @@ export class EditEventComponent implements OnInit {
       this.end_date = end[0];
       this.end_time = end[1];
     })
-
-    //this.teste = this.description; 2020-05-01 T00:00:00
     
   }
-
 
   edit(description, start_date, start_time, end_date, end_time) {
     let start = moment(this.start_date + "T" + this.start_time).format("YYYY-MM-DDTHH:mm:SS");
     let end = moment(this.end_date + "T" + this.end_time).format("YYYY-MM-DDTHH:mm:SS");
     let body = {"description": this.description, "start_time": start, "end_time": end}
-    // console.log("altera start mas nao end ",this.start_time, this.end_time);
 
     this.http.post(this.url+'/edit-event/'+this.event_id, body, { headers: new HttpHeaders({'api-key': this.currentUser.token})})
       .subscribe(data => {
-     console.log('o que o request retornou: ', data.event)
         this.router.navigate(['/events']);
     })
-
   }
   
 }

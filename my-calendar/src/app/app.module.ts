@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FullCalendarModule } from '@fullcalendar/angular'; // for FullCalendar!
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
 import { EventsComponent } from './events/events.component';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -14,18 +13,19 @@ import { CreateEventComponent } from './create-event/create-event.component';
 import { DlDateTimeDateModule, DlDateTimePickerModule } from 'angular-bootstrap-datetimepicker';
 import { ViewEventComponent } from './view-event/view-event.component';
 import { EditEventComponent } from './edit-event/edit-event.component';
+import { RegisterComponent } from './register/register.component';
  
    
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     EventsComponent,
     LoginComponent,
     CreateEventComponent,
     ViewEventComponent,
-    EditEventComponent
+    EditEventComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

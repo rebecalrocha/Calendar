@@ -24,6 +24,7 @@
     "@fullcalendar/core": "^4.4.0",
     "@fullcalendar/daygrid": "^4.4.0",
     "@ng-bootstrap/ng-bootstrap": "^6.1.0",
+    "@types/jquery": "^3.3.38",
     "angular-bootstrap-datetimepicker": "^4.0.2",
     "bootstrap": "^4.4.1",
     "jquery": "^1.9.1",

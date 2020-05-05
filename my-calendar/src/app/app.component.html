@@ -1,22 +1,42 @@
 
 <!-- Toolbar -->
-<header>
-  <div class="container">
-    <a class="logo">Welcome to MyCalendar</a>
-    <nav>
-      <ul>
-        <li><a href="#" routerLink="/createEvent">Create New Event</a></li>
-        <li><a href="#" routerLink="/events">Events</a></li>
-        <li><a href="#"><span (click)="logout()">Logout</span></a></li>
-      </ul>
-    </nav> 
-</div>
-</header>
+<nav class="navbar navbar-expand-lg navbar-light bg-info">
+  <a class="navbar-brand" routerLink="/events">
+    <svg class="bi bi-calendar" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" d="M14 0H2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" clip-rule="evenodd"/>
+      <path fill-rule="evenodd" d="M6.5 7a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+    </svg>
+    <span class="navbar-brand font-weight-bold ml-3">MyCalendar</span>
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" *ngIf="isLogged()" routerLink="/events">Events</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" *ngIf="isLogged()" routerLink="/createEvent">Create Event</a>
+      </li>
+      <li class="nav-item">
+        <button type="button" class="btn btn-outline-dark mr-2" *ngIf="!isLogged()" routerLink="/login">Log In</button>
+      </li>
+      <li class="nav-item">
+        <button type="button" class="btn btn-outline-dark" *ngIf="!isLogged()" routerLink="/register">Sign Up</button>
+      </li>
+      <li class="nav-item">
+        <button type="button" class="btn btn-outline-dark" *ngIf="isLogged()" (click)="logout()">Log Out</button>
+      </li>
+    </ul>
+  </div>
+</nav>
 
 <!-- * * *  -->
+  
+  <div class="container-fluid">
+    <router-outlet></router-outlet>
+  </div>
 
-<div class="container-fluid">
-  <router-outlet></router-outlet>
-</div>
+<!-- * * *  -->
