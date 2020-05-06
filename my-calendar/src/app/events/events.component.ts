@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import dayGridPlugin from '@fullcalendar/daygrid'; // for FullCalendar!
+import dayGridPlugin from '@fullcalendar/daygrid'; 
+import interactionPlugin from '@fullcalendar/interaction';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-events',
@@ -10,41 +10,49 @@ import { Router } from '@angular/router';
   styleUrls: ['./events.component.css']
 })
 export class EventsComponent implements OnInit {
-
-  constructor(
-    private router: Router,
-    private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient,  private activatedRoute: ActivatedRoute) { }
+  
+  message = null;
+  calendarEvents = []
   url = 'http://127.0.0.1:5000';
 
   ngOnInit(): void {
     this.getEvents();
+
+    this.activatedRoute.queryParamMap
+      .subscribe(params => {
+         this.message = params.params.message;
+      });
   }
   
   currentUser = JSON.parse(localStorage.getItem('currentUser'));
-  calendarPlugins = [dayGridPlugin]; // for FullCalendar!
+  calendarPlugins = [dayGridPlugin, interactionPlugin]; // for FullCalendar!
   calendarHeader = {
     left: 'prev,next',
     center: 'title',
     right: 'dayGridDay,dayGridWeek,dayGridMonth'
   }
-  calendarEvents = []
-  handleEventClick(info){
+
+  handleEventClick(info) {
     this.router.navigate(['/viewEvent/'+info.event.id]);
   }
 
-  getEvents(){
-      this.http.get(this.url+'/events', { headers: new HttpHeaders({'api-key': this.currentUser.token})})
-        .subscribe(data => {
-          data.events.map(event => {
-            this.calendarEvents = this.calendarEvents.concat({
-              "title": event.description,
-              "start": event.start_time,
-              "end": event.end_time,
-              "id": event.id
-            })
-          });
-      })
+  handleDateClick(info) {
+    this.router.navigate(['/createEvent'], { queryParams: { start_date: info.dateStr, end_date: info.dateStr } });
   }
 
+  getEvents(){
+    this.http.get(this.url+'/events', { headers: new HttpHeaders({'api-key': this.currentUser.token})})
+      .subscribe(data => {
+        data.events.map(event => {
+          this.calendarEvents = this.calendarEvents.concat({
+            "title": event.description,
+            "start": event.start_time,
+            "end": event.end_time,
+            "id": event.id
+          })
+        });
+      });
+  }
 }
 

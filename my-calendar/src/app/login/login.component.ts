@@ -8,7 +8,7 @@ import { AuthenticationService } from '../authentication.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  error = '';
+  error = null;
 
   constructor(
     private router: Router,
@@ -17,11 +17,11 @@ export class LoginComponent {
   login(email, password){
     this.authenticationService.login(email, password)
       .subscribe(data => {
-        if(data) {
-          this.router.navigate(['/events'])
-        } 
+        if (data && data["error"]) {
+          this.error = data["error"];          
+        }
         else {
-          this.error = 'email or password is incorrect'
+          this.router.navigate(['/events'])
         }
       });
   }

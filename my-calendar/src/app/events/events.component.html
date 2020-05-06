@@ -1,11 +1,19 @@
-<div class="content mt-4">
+<div class="alert alert-primary alert-dismissible mt-3" *ngIf="message" role="alert">
+  {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">x</span>
+  </button>
+</div>
 
-  <full-calendar
-  defaultView="dayGridMonth"
-  [plugins]="calendarPlugins"
-  [header]="calendarHeader"
-  [events]="calendarEvents"
-  (eventClick)="handleEventClick($event)"
-  ></full-calendar>
-
-</div> <!-- content class -->
+<div class="row">
+  <div class="offset-sm-2 col-sm-8">
+    <full-calendar
+    defaultView="dayGridMonth"
+    [plugins]="calendarPlugins"
+    [header]="calendarHeader"
+    [events]="calendarEvents"
+    (dateClick)="handleDateClick($event)"
+    (eventClick)="handleEventClick($event)"
+    ></full-calendar>
+  </div>
+</div> 

@@ -9,31 +9,26 @@ import { AuthenticationService } from '../authentication.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  error = '';
+  constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) { }
 
-  constructor(
-    private http: HttpClient, 
-    private router: Router,
-    private authenticationService: AuthenticationService) { }
-  
+  error = null;
   url = 'http://127.0.0.1:5000';
 
   register(email, password){
     let body = {"email": email, "password": password}
-    console.log(body)
 
     this.http.post(this.url+'/register', body)
       .subscribe(data => {
-        if(data) {
+        if (data && data["error"]) {
+          this.error = data["error"]          
+        }
+        else {
           this.authenticationService.login(email, password)
-          .subscribe(req => {
-            if(req) {
-              this.router.navigate(['/events'])
-            }
-          });
-        } 
-        else{
-          this.error = 'email already registered';
+            .subscribe(res => {
+              if(res) {
+                this.router.navigate(['/events'], { queryParams: { message: data.message } });
+              }
+            });
         }
       })
   }

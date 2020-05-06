@@ -2,22 +2,38 @@
 @import '~@fullcalendar/daygrid/main.css';
 
 .wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    margin-top: 140px;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 140px;
+  margin-top: 20px;
+}
   
-  #formContent {
-    border-radius: 10px 10px 10px 10px;
-    background: #fff;
-    padding: 30px;
-    width: 90%;
-    max-width: 450px;
-    position: relative;
-    padding: 0px;
-    box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
-    text-align: center;
-  }
-  
+#formContent {
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+.fc-content {
+  cursor: pointer;
+}
+
+.fc-event,
+.fc-event-dot {
+  background-color: #87CEFA;
+}
+
+.fc-toolbar {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.fc-left {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}

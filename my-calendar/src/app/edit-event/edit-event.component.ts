@@ -23,6 +23,7 @@ export class EditEventComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private http: HttpClient) { }
 
+  error = null;
   url = 'http://127.0.0.1:5000';
   currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -32,16 +33,17 @@ export class EditEventComponent implements OnInit {
       this.event_id = params.params.event_id;
     });
 
-    this.http.get(this.url+'/get-event/'+this.event_id, { headers: new HttpHeaders({'api-key': this.currentUser.token})})
+    this.http.get(this.url+'/events/'+this.event_id, { headers: new HttpHeaders({'api-key': this.currentUser.token})})
     .subscribe(data => {
+      console.log(data.event)
 
-      let start = data.event.start_time.split("T");
-      let end = data.event.end_time.split("T");
-      this.description = data.event.description;
-      this.start_date = start[0];
-      this.start_time = start[1];
-      this.end_date = end[0];
-      this.end_time = end[1];
+       let start = data.event.start_time.split("T");
+       let end = data.event.end_time.split("T");
+       this.description = data.event.description;
+       this.start_date = start[0];
+       this.start_time = start[1];
+       this.end_date = end[0];
+       this.end_time = end[1];
     })
     
   }
@@ -51,9 +53,14 @@ export class EditEventComponent implements OnInit {
     let end = moment(this.end_date + "T" + this.end_time).format("YYYY-MM-DDTHH:mm:SS");
     let body = {"description": this.description, "start_time": start, "end_time": end}
 
-    this.http.post(this.url+'/edit-event/'+this.event_id, body, { headers: new HttpHeaders({'api-key': this.currentUser.token})})
+    this.http.put(this.url+'/events/'+this.event_id, body, { headers: new HttpHeaders({'api-key': this.currentUser.token})})
       .subscribe(data => {
-        this.router.navigate(['/events']);
+        if (data && data["error"]) {
+          this.error = data["error"]          
+        }
+        else {
+          this.router.navigate(['/events'])
+        }
     })
   }
   

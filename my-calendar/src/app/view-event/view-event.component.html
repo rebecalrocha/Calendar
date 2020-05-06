@@ -1,7 +1,10 @@
-<div class="wrapper">
-    <div class="col-16">
+<div class="mt-5 offset-sm-2 col-sm-8">  
+    <div class="col-12 mb-4">
+        <button type="button" class="btn btn-info" routerLink="/events">Go Back</button>
+    </div>
+    <div class="col-12">
         <div class="card">
-            <div class="card-header text-center font-weight-bold">
+            <div class="card-header font-weight-bold">
               {{description}}
             </div>
             <div class="card-body">
@@ -13,10 +16,10 @@
             <div class="row mb-3">
                 <div class="col-12">
                     <button type="button" class="btn btn-info ml-3" (click)='handleEditClick()'>Edit</button>
-                    <button type="button" class="btn btn-info mx-3" (click)="delete()">Delete</button>
-                    <button type="button" class="btn btn-info float-right mr-3" routerLink="/events">Go Back</button>
+                    <button type="button" class="btn btn-danger mr-3 float-right" (click)="delete()">Delete</button>
                 </div>
             </div>
           </div>
     </div>
-</div>
+</div> 
+

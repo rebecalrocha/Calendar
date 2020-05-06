@@ -1,4 +1,11 @@
-<div class="wrapper">
+<div class="alert alert-danger alert-dismissible mt-3" *ngIf="error" role="alert">
+    {{ error }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">x</span>
+    </button>
+</div>
+
+<div class="mt-5 offset-sm-2 col-sm-8">
     <div class="col-12">
         <form>
             <div class="form-group">
@@ -6,28 +13,28 @@
                 <input type="text" class="form-control" id="inputDescription" #description ngModel name="description">
             </div>
             <div class="form-group row">
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12 mb-2 mb-sm-0">
                     <label for="inputStartTime">Start Data</label>
-                    <input type="date" class="form-control" id="inputStartTime" #start_date ngModel name="start_date" >  
+                    <input type="date" class="form-control" id="inputStartTime" [(ngModel)]="start_date" name="start_date">  
                 </div>
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12">
                     <label for="inputStartDate">Start Time</label>
                     <input type="time" class="form-control" id="inputStartDate" #start_time ngModel name="start_time">
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12 mb-2 mb-sm-0">
                     <label for="inputEndtTime">End Data</label>
-                    <input type="date" class="form-control" id="inputEndTime" #end_date ngModel name="end_date">  
+                    <input type="date" class="form-control" id="inputEndTime" [(ngModel)]="end_date" name="end_date">  
                 </div>
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12">
                     <label for="inputEndDate">End Time</label>
                     <input type="time" class="form-control" id="inputEndDate" #end_time ngModel name="end_time">
                 </div>
             </div>
             <div class="row">
                 <div class=col-12>
-                    <button type="button" class="btn btn-info" (click)="create(description.value, start_date.value, start_time.value, end_date.value, end_time.value)">Submit</button>
+                    <button type="button" class="btn btn-info" (click)="create(description.value, start_time.value, end_time.value)">Submit</button>
                     <button type="button" class="btn btn-info float-right" routerLink="/events">Cancel</button>
                 </div>
             </div>

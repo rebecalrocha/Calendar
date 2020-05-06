@@ -10,14 +10,13 @@ import * as moment from 'moment';
   styleUrls: ['./view-event.component.css']
 })
 export class ViewEventComponent implements OnInit {
-  event_id: number;
-  description: string;
-  start: string;
-  end: string;
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private http: HttpClient){}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private http: HttpClient){}
+
+  event_id : number;
+  description : String;
+  start : String;
+  end : String;
+
   url = 'http://127.0.0.1:5000';
   currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -28,7 +27,7 @@ export class ViewEventComponent implements OnInit {
       this.event_id = params.params.event_id;
     });
 
-    this.http.get(this.url+'/get-event/'+this.event_id, { headers: new HttpHeaders({'api-key': this.currentUser.token})})
+    this.http.get(this.url+'/events/'+this.event_id, { headers: new HttpHeaders({'api-key': this.currentUser.token})})
     .subscribe(data => {
       this.description = data.event.description;
       this.start = moment(data.event.start_time).format('MMMM Do YYYY, h:mm:ss a');
@@ -37,11 +36,10 @@ export class ViewEventComponent implements OnInit {
   }
 
   delete(){
-    let reqDel = this.http.get(this.url+'/delete-event/'+this.event_id, { headers: new HttpHeaders({'api-key': this.currentUser.token})})
+    this.http.delete(this.url+'/events/'+this.event_id, { headers: new HttpHeaders({'api-key': this.currentUser.token})})
     .subscribe(data => {
-      console.log(data)
-      if (data.message == 'deleted'){
-        this.router.navigate(['/events']);
+      if (data.message){
+        this.router.navigate(['/events'], { queryParams: { message: data.message } });
       }
     })
   }
