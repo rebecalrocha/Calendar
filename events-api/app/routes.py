@@ -10,7 +10,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 def auth_user(request):
     token = None
-
     if 'api-key' in request.headers:
         token = request.headers['api-key']
 
@@ -23,12 +22,35 @@ def auth_user(request):
     return logged_user
 
 
+def overlap(start_time, end_time, event = None):
+    logged_user = auth_user(request)
+
+    for user_event in logged_user.events:
+        #caso esteja editando evento
+        if event and event == user_event:
+            continue
+
+        range1 = (user_event.start_time, user_event.end_time)
+        range2 = (start_time, end_time)
+
+        latest_start = max(range1[0], range2[0])
+        earliest_end = min(range1[1], range2[1])
+        overlap = earliest_end - latest_start
+        overlapMinutes = overlap.total_seconds() / 60
+
+        if (overlapMinutes > 0.0):
+            return True
+
+    return False
+
+
+#retorna todos os eventos
 @app.route('/events', methods=['GET'])
 def get_events():
-    #usando ORM para fazer uma query 
+    #ORM para fazer uma query 
     logged_user = auth_user(request)
     if logged_user is None:
-        return jsonify({'message': 'user not authenticated'})
+        return jsonify({'error': 'User not authenticated!'})
 
     #criando dicionario
     events = []
@@ -38,93 +60,91 @@ def get_events():
     #convertendo para json
     return jsonify({'events': events})
 
-@app.route('/get-event/<int:event_id>', methods=['GET'])
-def get_event(event_id):
+
+#retorna só 1 evento
+@app.route('/events/<int:id>', methods=['GET'])
+def get_event(id):
     logged_user = auth_user(request)
     if logged_user is None:
-        return jsonify({'message': 'user not authenticated'})  
+        return jsonify({'error': 'User not authenticated!'})  
     
     for event in logged_user.events:
-        if event.id == event_id:
+        if event.id == id:
             return jsonify({'event': event.serialize()})
     
-    return jsonify({'message': 'event not  found'})
+    return jsonify({'error': 'Event not foun!d'})
 
 
-@app.route('/create-events', methods=['POST'])
+@app.route('/events', methods=['POST'])
 def create_event():
     logged_user = auth_user(request)
     if logged_user is None:
-        return jsonify({'message': 'user not authenticated'})
+        return jsonify({'error': 'User not authenticated!'})
 
     event_params = json.loads(request.data)
     start = datetime.strptime(event_params['start_time'], '%Y-%m-%dT%H:%M:%S')
     end = datetime.strptime(event_params['end_time'], '%Y-%m-%dT%H:%M:%S')
 
-    if start < end:
+    if start <= end:
         event = Event()
         event.description = event_params['description']
         event.start_time = start
         event.end_time = end
         event.user_id = logged_user.id
 
-        # salvando no banco
-        db.session.add(event)
-        db.session.commit()
-        #criando dicionario e convertendo para json
-        return jsonify({'event': event.serialize()})
+        #verifica se há overlap com eventos já existentes
+        if overlap(event.start_time, event.end_time):
+            return jsonify({'error': 'You cannot overlap another event!'})
+        else:
+            db.session.add(event)
+            db.session.commit()
+            return jsonify({'event': event.serialize()})
 
-    return jsonify({'message': 'start time must be earlier than end time'})
+    return jsonify({'error': 'Start time must be earlier than end time!'})
 
 
-@app.route('/delete-event/<int:event_id>', methods=['GET'])
-def delete_event(event_id):
+@app.route('/events/<int:id>', methods=['PUT'])
+def edit_event(id):
     logged_user = auth_user(request)
     if logged_user is None:
-        return jsonify({'message': 'user not authenticated'})
+        return jsonify({'error': 'User not authenticated!'})
 
-    event = Event.query.filter_by(id=event_id, user_id=logged_user.id).first()
+    event = Event.query.filter_by(id=id, user_id=logged_user.id).first()
+    if event is None:
+        return jsonify({'error': 'Event not found!'})
+
+    event_params = json.loads(request.data)
+    start = datetime.strptime(event_params['start_time'], '%Y-%m-%dT%H:%M:%S')
+    end = datetime.strptime(event_params['end_time'], '%Y-%m-%dT%H:%M:%S') 
+     
+    if start <= end:
+        event.description = event_params['description']
+        event.start_time = start
+        event.end_time = end
+
+        #verifica se há overlap com eventos já existentes
+        if overlap(event.start_time, event.end_time, event):
+            return jsonify({'error': 'You cannot overlap another event!'})
+        else:
+            db.session.commit()
+            return jsonify({'event': event.serialize()})
+
+    return jsonify({'error': 'Start time must be earlier than end time!'})
+
+
+@app.route('/events/<int:id>', methods=['DELETE'])
+def delete_event(id):
+    logged_user = auth_user(request)
+    if logged_user is None:
+        return jsonify({'error': 'User not authenticated!'})
+
+    event = Event.query.filter_by(id=id, user_id=logged_user.id).first()
     if event:
         db.session.delete(event)
         db.session.commit()
-        return jsonify({'message': 'deleted'})
+        return jsonify({'message': 'Event deleted!'})
 
-    return jsonify({'message': 'event not found'})
-
-
-@app.route('/edit-event/<int:event_id>', methods=['POST'])
-def edit_event(event_id):
-    logged_user = auth_user(request)
-    if logged_user is None:
-        return jsonify({'message': 'user not authenticated'})
-
-    event = Event.query.filter_by(id=event_id, user_id=logged_user.id).first()
-    if event is None:
-        return jsonify({'message': 'event not found'})
-
-    event_params = json.loads(request.data)
-    #se não passou horario no body do request, pega do banco
-    try:
-        start = datetime.strptime(event_params['start_time'], '%Y-%m-%dT%H:%M:%S')
-    except:
-        start = event.start_time
-    try:
-        end = datetime.strptime(event_params['end_time'], '%Y-%m-%dT%H:%M:%S') 
-    except:
-        end = event.end_time
-     
-
-    if start < end:
-        if 'description' in event_params:
-            event.description = event_params['description']
-        if 'start_time' in event_params:
-            event.start_time = start
-        if 'end_time' in event_params:
-            event.end_time = end
-        db.session.commit()
-        return jsonify({'event': event.serialize()})
-
-    return jsonify({'message': 'start time must be earlier than end time'})
+    return jsonify({'error': 'Event not found!'})
 
 
 @app.route('/login', methods=['POST'])
@@ -140,23 +160,21 @@ def login_user():
             }, app.config['SECRET_KEY'])
             return jsonify({'token': token.decode('UTF-8')})
     
-    return jsonify({'message': 'user not found'})
+    return jsonify({'error': 'Email address or password is incorrect!'})
 
 
 @app.route('/register', methods=['POST'])
 def register_user():
-    user_params = json.loads(request.data) #email e senha para registrar
-    #verifica se email já existe
+    user_params = json.loads(request.data)
+    
     user_exist = User.query.filter_by(email=user_params['email']).first()
     if user_exist:
-        return jsonify({'message': 'email already registered'})
+        return jsonify({'error': 'Email already registered!'})
 
     #converte senha em hash
     password = generate_password_hash(user_params['password'], method='sha256')
-
-    #salva no banco
-    u = User(email=user_params['email'], password=password)
-    db.session.add(u)
+    user = User(email=user_params['email'], password=password)
+    db.session.add(user)
     db.session.commit()
 
-    return jsonify({'message': 'new user registrated'})
+    return jsonify({'message': 'New user registrated!'})
