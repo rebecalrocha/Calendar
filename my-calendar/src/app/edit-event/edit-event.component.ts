@@ -29,12 +29,12 @@ export class EditEventComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.paramMap
-    .subscribe(params => {
+    .subscribe((params : any) => {
       this.event_id = params.params.event_id;
     });
 
     this.http.get(this.url+'/events/'+this.event_id, { headers: new HttpHeaders({'api-key': this.currentUser.token})})
-    .subscribe(data => {
+    .subscribe((data : any) => {
       console.log(data.event)
 
        let start = data.event.start_time.split("T");

@@ -23,12 +23,12 @@ export class ViewEventComponent implements OnInit {
   ngOnInit(): void {
     //pegando id do evento enviado pelo path
     this.activatedRoute.paramMap
-    .subscribe(params => {
+    .subscribe((params : any) => {
       this.event_id = params.params.event_id;
     });
 
     this.http.get(this.url+'/events/'+this.event_id, { headers: new HttpHeaders({'api-key': this.currentUser.token})})
-    .subscribe(data => {
+    .subscribe((data : any) => {
       this.description = data.event.description;
       this.start = moment(data.event.start_time).format('MMMM Do YYYY, h:mm:ss a');
       this.end = moment(data.event.end_time).format('MMMM Do YYYY, h:mm:ss a');
@@ -37,7 +37,7 @@ export class ViewEventComponent implements OnInit {
 
   delete(){
     this.http.delete(this.url+'/events/'+this.event_id, { headers: new HttpHeaders({'api-key': this.currentUser.token})})
-    .subscribe(data => {
+    .subscribe((data : any) => {
       if (data.message){
         this.router.navigate(['/events'], { queryParams: { message: data.message } });
       }

@@ -20,7 +20,7 @@ export class EventsComponent implements OnInit {
     this.getEvents();
 
     this.activatedRoute.queryParamMap
-      .subscribe(params => {
+      .subscribe((params : any) => {
          this.message = params.params.message;
       });
   }
@@ -43,7 +43,7 @@ export class EventsComponent implements OnInit {
 
   getEvents(){
     this.http.get(this.url+'/events', { headers: new HttpHeaders({'api-key': this.currentUser.token})})
-      .subscribe(data => {
+      .subscribe((data : any) => {
         data.events.map(event => {
           this.calendarEvents = this.calendarEvents.concat({
             "title": event.description,

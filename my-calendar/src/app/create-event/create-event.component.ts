@@ -19,7 +19,7 @@ export class CreateEventComponent implements OnInit {
 
   ngOnInit() : void {
     this.activatedRoute.queryParamMap
-      .subscribe(params => {
+      .subscribe((params : any) => {
          this.start_date = params.params.start_date;
          this.end_date = params.params.end_date;
       });

@@ -18,7 +18,7 @@ export class RegisterComponent {
     let body = {"email": email, "password": password}
 
     this.http.post(this.url+'/register', body)
-      .subscribe(data => {
+      .subscribe((data : any) => {
         if (data && data["error"]) {
           this.error = data["error"]          
         }
