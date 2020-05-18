@@ -18,18 +18,16 @@ export class RegisterComponent {
     let body = {"email": email, "password": password}
 
     this.http.post(this.url+'/register', body)
-      .subscribe((data : any) => {
-        if (data && data["error"]) {
-          this.error = data["error"]          
-        }
-        else {
-          this.authenticationService.login(email, password)
-            .subscribe(res => {
-              if(res) {
-                this.router.navigate(['/events'], { queryParams: { message: data.message } });
-              }
-            });
-        }
+      .subscribe((data: any) => {
+        if (data && data.error) {
+          this.error = data.error          
+        }        
+        this.authenticationService.login(email, password)
+          .subscribe(res => {
+            if(res) {
+              this.router.navigate(['/events'], { queryParams: { message: data.message } });
+            }
+          });
       })
   }
 

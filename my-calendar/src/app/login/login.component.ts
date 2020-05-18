@@ -10,19 +10,15 @@ import { AuthenticationService } from '../authentication.service';
 export class LoginComponent {
   error = null;
 
-  constructor(
-    private router: Router,
-    private authenticationService: AuthenticationService) { }
+  constructor(private router: Router, private authenticationService: AuthenticationService) { }
 
   login(email, password){
     this.authenticationService.login(email, password)
-      .subscribe(data => {
-        if (data && data["error"]) {
-          this.error = data["error"];          
+      .subscribe((data: any) => {
+        if (data && data.error) {
+          this.error = data.error;          
         }
-        else {
-          this.router.navigate(['/events'])
-        }
+        this.router.navigate(['/events'])
       });
   }
 }

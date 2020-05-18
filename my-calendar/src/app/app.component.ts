@@ -10,11 +10,10 @@ import { AuthenticationService } from './authentication.service';
 export class AppComponent {
   constructor(private authenticationService: AuthenticationService, private router: Router) { }
 
-  isLogged() : boolean {
+  isLogged(): boolean {
     if (this.authenticationService.token) {
       return true;
     }
-
     return false;
   }
 

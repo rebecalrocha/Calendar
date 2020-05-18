@@ -18,10 +18,7 @@ export class EditEventComponent implements OnInit {
   end_time: string;
   end: string
 
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private http: HttpClient) { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private http: HttpClient) { }
 
   error = null;
   url = 'http://127.0.0.1:5000';
@@ -29,13 +26,12 @@ export class EditEventComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.paramMap
-    .subscribe((params : any) => {
+    .subscribe((params: any) => {
       this.event_id = params.params.event_id;
     });
 
     this.http.get(this.url+'/events/'+this.event_id, { headers: new HttpHeaders({'api-key': this.currentUser.token})})
-    .subscribe((data : any) => {
-      console.log(data.event)
+    .subscribe((data: any) => {
 
        let start = data.event.start_time.split("T");
        let end = data.event.end_time.split("T");
@@ -54,13 +50,11 @@ export class EditEventComponent implements OnInit {
     let body = {"description": this.description, "start_time": start, "end_time": end}
 
     this.http.put(this.url+'/events/'+this.event_id, body, { headers: new HttpHeaders({'api-key': this.currentUser.token})})
-      .subscribe(data => {
-        if (data && data["error"]) {
-          this.error = data["error"]          
+      .subscribe((data: any) => {
+        if (data && data.error) {
+          this.error = data.error          
         }
-        else {
-          this.router.navigate(['/events'])
-        }
+        this.router.navigate(['/events'])
     })
   }
   

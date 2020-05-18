@@ -12,10 +12,10 @@ import * as moment from 'moment';
 export class ViewEventComponent implements OnInit {
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private http: HttpClient){}
 
-  event_id : number;
-  description : String;
-  start : String;
-  end : String;
+  event_id: number;
+  description: string;
+  start: string;
+  end: string;
 
   url = 'http://127.0.0.1:5000';
   currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -28,7 +28,7 @@ export class ViewEventComponent implements OnInit {
     });
 
     this.http.get(this.url+'/events/'+this.event_id, { headers: new HttpHeaders({'api-key': this.currentUser.token})})
-    .subscribe((data : any) => {
+    .subscribe((data: any) => {
       this.description = data.event.description;
       this.start = moment(data.event.start_time).format('MMMM Do YYYY, h:mm:ss a');
       this.end = moment(data.event.end_time).format('MMMM Do YYYY, h:mm:ss a');
@@ -37,7 +37,7 @@ export class ViewEventComponent implements OnInit {
 
   delete(){
     this.http.delete(this.url+'/events/'+this.event_id, { headers: new HttpHeaders({'api-key': this.currentUser.token})})
-    .subscribe((data : any) => {
+    .subscribe((data: any) => {
       if (data.message){
         this.router.navigate(['/events'], { queryParams: { message: data.message } });
       }
